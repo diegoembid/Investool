@@ -30,12 +30,29 @@ cd Investool
 
 ## 2. Abrir una terminal en la carpeta del proyecto
 
-- **Windows 11:** abre la carpeta `Investool` en el Explorador, haz clic derecho en un
-  espacio vacío y elige "Abrir en Terminal".
-- **Mac:** abre la app Terminal, escribe `cd ` (con un espacio), arrastra la carpeta
-  `Investool` a la ventana y pulsa Intro.
+**Windows 11** (la forma más fiable):
 
-Todas las órdenes siguientes se escriben en esa terminal.
+1. Abre la carpeta `Investool` en el Explorador de archivos. Dentro deben verse las
+   carpetas `backend`, `frontend` y `docs`.
+2. Haz clic en la barra de dirección de arriba (donde aparece la ruta de la carpeta), de
+   modo que el texto quede seleccionado.
+3. Escribe `powershell` y pulsa Intro. Se abre una ventana azul o negra que ya está en esa
+   carpeta.
+
+Otras formas en Windows: con la carpeta abierta, clic derecho en un espacio vacío (no
+encima de un archivo) y "Abrir en Terminal", que a veces está dentro de "Mostrar más
+opciones". O, en GitHub Desktop, el menú "Repository" y la opción de abrir en la línea de
+órdenes.
+
+**Mac:** abre la app Terminal, escribe `cd ` (con un espacio), arrastra la carpeta
+`Investool` a la ventana y pulsa Intro.
+
+**Comprobación:** escribe `dir` (Windows) o `ls` (Mac) y pulsa Intro. En la lista debe
+aparecer `docker-compose.yml`. Si no aparece, estás en otra carpeta: a veces GitHub
+Desktop crea una carpeta `Investool` dentro de otra; entra en la que contiene
+`docker-compose.yml` y repite.
+
+Todas las órdenes siguientes se escriben en esa ventana.
 
 ## 3. Crear el fichero de configuración
 
