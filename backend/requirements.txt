@@ -1,0 +1,17 @@
+# Dependencias de ejecución. Versiones fijadas y con al menos dos semanas
+# desde su publicación (revisadas el 13-oct-2026).
+fastapi==0.142.1
+uvicorn[standard]==0.54.0
+pydantic==2.13.5
+pydantic-settings==2.15.0
+email-validator==2.3.0
+sqlalchemy==2.1.1
+alembic==1.20.0
+psycopg[binary]==3.3.6
+argon2-cffi==25.1.0
+pyotp==2.10.0
+cryptography==50.0.1
+qrcode==8.2
+anthropic==1.9.0
+openai==3.22.0
+httpx==0.28.1

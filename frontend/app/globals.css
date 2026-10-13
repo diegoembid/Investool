@@ -1,0 +1,129 @@
+@import "@fontsource/hanken-grotesk/400.css";
+@import "@fontsource/hanken-grotesk/500.css";
+@import "@fontsource/hanken-grotesk/700.css";
+
+:root {
+  --paper: #edf1ef;
+  --surface: #ffffff;
+  --ink: #12201e;
+  --muted: #56645f;
+  --rule: #cbd5d2;
+  --petrol: #0e3b43;
+  --petrol-ink: #f2f7f6;
+  --track: #d9e2df;
+  --fill: #2f6f62;
+  --warn: #9a6512;
+  --crit: #b42318;
+  --focus: #1f7a8c;
+
+  --step--1: 0.875rem;
+  --step-0: 1rem;
+  --step-1: 1.25rem;
+  --step-2: 1.75rem;
+  --step-3: 2.75rem;
+
+  color-scheme: light;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --paper: #0f1a19;
+    --surface: #152321;
+    --ink: #e4ecea;
+    --muted: #9aaba6;
+    --rule: #2c3d3a;
+    --petrol: #0b2f35;
+    --petrol-ink: #e4ecea;
+    --track: #243633;
+    --fill: #5fae9c;
+    --warn: #e0a743;
+    --crit: #f07a6e;
+    --focus: #6cc3d5;
+    color-scheme: dark;
+  }
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: "Hanken Grotesk", system-ui, sans-serif;
+  font-size: var(--step-0);
+  line-height: 1.5;
+  font-variant-numeric: tabular-nums;
+}
+
+h1,
+h2,
+h3 {
+  line-height: 1.15;
+  margin: 0;
+}
+
+a {
+  color: inherit;
+}
+
+:focus-visible {
+  outline: 3px solid var(--focus);
+  outline-offset: 2px;
+}
+
+button {
+  font: inherit;
+  cursor: pointer;
+  border-radius: 6px;
+  border: 1px solid var(--petrol);
+  background: var(--petrol);
+  color: var(--petrol-ink);
+  padding: 0.55rem 1rem;
+  font-weight: 500;
+}
+
+button.secondary {
+  background: transparent;
+  color: var(--ink);
+  border-color: var(--rule);
+}
+
+button:disabled {
+  opacity: 0.55;
+  cursor: progress;
+}
+
+input {
+  font: inherit;
+  width: 100%;
+  padding: 0.6rem 0.75rem;
+  border: 1px solid var(--rule);
+  border-radius: 6px;
+  background: var(--surface);
+  color: var(--ink);
+}
+
+label {
+  display: block;
+  font-weight: 500;
+  margin-bottom: 0.35rem;
+}
+
+.muted {
+  color: var(--muted);
+}
+
+.error {
+  color: var(--crit);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    transition: none !important;
+  }
+}

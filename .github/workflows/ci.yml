@@ -1,0 +1,93 @@
+# Comprobaciones automáticas en cada cambio subido a GitHub.
+name: CI
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  backend:
+    name: Backend (pruebas, estilo y fronteras entre módulos)
+    runs-on: ubuntu-24.04
+    services:
+      db:
+        image: timescale/timescaledb:2.30.1-pg17
+        env:
+          POSTGRES_USER: investool
+          POSTGRES_PASSWORD: investool
+          POSTGRES_DB: investool
+        ports: ["5432:5432"]
+        options: >-
+          --health-cmd "pg_isready -U investool" --health-interval 5s
+          --health-timeout 5s --health-retries 20
+    defaults:
+      run:
+        working-directory: backend
+    env:
+      DATABASE_URL: postgresql+psycopg://investool:investool@localhost:5432/investool
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
+        with:
+          python-version: "3.12"
+      - run: pip install -r requirements-dev.txt -c constraints.txt
+      - name: Estilo
+        run: |
+          ruff check .
+          ruff format --check .
+      - name: Fronteras entre módulos
+        run: lint-imports
+      - name: Migraciones al día con los modelos
+        run: |
+          APP_SECRET_KEY=x alembic upgrade head
+          APP_SECRET_KEY=x alembic check
+      - name: Pruebas
+        run: pytest --cov=app --cov-report=term
+
+  frontend:
+    name: Frontend (tipos y compilación)
+    runs-on: ubuntu-24.04
+    defaults:
+      run:
+        working-directory: frontend
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: "22"
+          cache: npm
+          cache-dependency-path: frontend/package-lock.json
+      - run: npm ci --no-audit --no-fund
+      - run: npm run typecheck
+      - run: npm run build
+
+  docker:
+    name: Arranque completo con Docker
+    runs-on: ubuntu-24.04
+    needs: [backend, frontend]
+    steps:
+      - uses: actions/checkout@v7
+      - name: Preparar .env de prueba
+        run: |
+          cp .env.example .env
+          KEY=$(python3 -c "import base64,os;print(base64.urlsafe_b64encode(os.urandom(32)).decode())")
+          sed -i "s|^APP_SECRET_KEY=.*|APP_SECRET_KEY=$KEY|" .env
+          sed -i "s|^POSTGRES_PASSWORD=.*|POSTGRES_PASSWORD=ci$(openssl rand -hex 12)|" .env
+      - name: Construir y arrancar
+        run: docker compose up -d --build --wait --wait-timeout 300
+      - name: Comprobar que responde a través del frontend
+        run: |
+          curl -fsS http://127.0.0.1:3000/api/health | tee /dev/stderr | grep '"database":"ok"'
+          curl -fsS -o /dev/null http://127.0.0.1:3000/login
+          test "$(curl -s -o /dev/null -w '%{http_code}' http://127.0.0.1:3000/api/ai/usage)" = "401"
+      - name: Pruebas dentro del contenedor
+        run: docker compose exec -T backend pytest -q
+      - name: Registros si algo falla
+        if: failure()
+        run: docker compose logs --no-color
+      - name: Parar
+        if: always()
+        run: docker compose down -v

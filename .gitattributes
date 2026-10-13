@@ -1,0 +1,3 @@
+# Finales de línea Unix en todo el repositorio (evita errores en Docker desde Windows).
+* text=auto eol=lf
+*.png binary

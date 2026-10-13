@@ -1,0 +1,74 @@
+[project]
+name = "investool-backend"
+version = "0.1.0"
+description = "Backend de Investool: plataforma privada de inteligencia de inversiones"
+requires-python = ">=3.12"
+
+[tool.ruff]
+line-length = 100
+target-version = "py312"
+extend-exclude = ["alembic/versions"]
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "B", "UP", "S", "SIM"]
+ignore = [
+    "S101",  # assert en pruebas
+    "B008",  # Depends() en argumentos de FastAPI
+]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/**" = ["S105", "S106"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q"
+pythonpath = ["."]
+
+# Fronteras entre módulos (apartado C del diseño). Se comprueban con `lint-imports`.
+[tool.importlinter]
+root_package = "app"
+include_external_packages = true
+
+[[tool.importlinter.contracts]]
+name = "quant es código puro: sin red, sin IA, sin base de datos de otros módulos"
+type = "forbidden"
+source_modules = ["app.modules.quant"]
+forbidden_modules = [
+    "app.modules.ai_gateway",
+    "app.modules.agents",
+    "app.modules.ingestion",
+    "app.modules.execution",
+    "anthropic",
+    "openai",
+    "httpx",
+]
+
+[[tool.importlinter.contracts]]
+name = "Los agentes de IA no pueden tocar límites de riesgo ni ejecución"
+type = "forbidden"
+source_modules = ["app.modules.agents"]
+forbidden_modules = ["app.modules.risk", "app.modules.execution", "app.modules.portfolio"]
+
+[[tool.importlinter.contracts]]
+name = "Solo ai_gateway habla con proveedores de IA"
+type = "forbidden"
+source_modules = [
+    "app.modules.auth",
+    "app.modules.ingestion",
+    "app.modules.market_data",
+    "app.modules.news",
+    "app.modules.quant",
+    "app.modules.agents",
+    "app.modules.opportunities",
+    "app.modules.ledger",
+    "app.modules.portfolio",
+    "app.modules.risk",
+    "app.modules.execution",
+]
+forbidden_modules = ["anthropic", "openai"]
+
+[[tool.importlinter.contracts]]
+name = "risk no depende de la IA"
+type = "forbidden"
+source_modules = ["app.modules.risk"]
+forbidden_modules = ["app.modules.ai_gateway", "app.modules.agents"]

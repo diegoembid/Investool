@@ -1,0 +1,56 @@
+.page {
+  min-height: 100vh;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 24rem);
+  gap: 4rem;
+  align-items: center;
+  max-width: 64rem;
+  margin: 0 auto;
+  padding: 2rem 1rem;
+}
+
+.intro p {
+  margin: 0.75rem 0 0;
+  font-size: var(--step-1);
+  max-width: 28ch;
+}
+
+.wordmark {
+  font-size: clamp(3rem, 9vw, 6.5rem);
+  font-weight: 700;
+  letter-spacing: -0.045em;
+  color: var(--petrol);
+}
+
+@media (prefers-color-scheme: dark) {
+  .wordmark {
+    color: var(--fill);
+  }
+}
+
+.form {
+  display: grid;
+  gap: 1.25rem;
+  background: var(--surface);
+  border: 1px solid var(--rule);
+  border-radius: 10px;
+  padding: 1.75rem;
+}
+
+.form p {
+  margin: 0;
+}
+
+.help {
+  font-size: var(--step--1);
+  margin-top: 0.35rem !important;
+}
+
+@media (max-width: 760px) {
+  .page {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+    align-items: start;
+    padding-top: 3rem;
+  }
+}

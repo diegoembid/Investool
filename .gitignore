@@ -1,0 +1,22 @@
+# Secretos
+.env
+.env.*
+!.env.example
+
+# Python
+__pycache__/
+*.pyc
+.pytest_cache/
+.ruff_cache/
+.coverage
+.venv/
+
+# Node / Next.js
+node_modules/
+.next/
+*.tsbuildinfo
+
+# Sistema
+.DS_Store
+Thumbs.db
+.import_linter_cache/
