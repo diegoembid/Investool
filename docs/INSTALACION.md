@@ -52,7 +52,10 @@ aparecer `docker-compose.yml`. Si no aparece, estás en otra carpeta: a veces Gi
 Desktop crea una carpeta `Investool` dentro de otra; entra en la que contiene
 `docker-compose.yml` y repite.
 
-Todas las órdenes siguientes se escriben en esa ventana.
+Todas las órdenes siguientes se escriben (o se pegan) en esa ventana y se ejecutan
+pulsando Intro. Copia solo el texto de la orden, sin las comillas invertidas que la
+rodean en esta guía. Para pegar en PowerShell, clic derecho dentro de la ventana o
+Ctrl+V.
 
 ## 3. Crear el fichero de configuración
 
@@ -60,6 +63,9 @@ Copia la plantilla:
 
 - Windows: `copy .env.example .env`
 - Mac: `cp .env.example .env`
+
+Si todo va bien, no aparece ningún mensaje. Para comprobarlo, escribe `dir` (Windows) o
+`ls -a` (Mac): debe aparecer `.env` en la lista.
 
 Genera la clave maestra y la contraseña de la base de datos:
 
