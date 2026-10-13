@@ -15,8 +15,8 @@ Cada función está en uno de estos estados, y nunca se declara en uno superior 
 
 | Función | Estado | Notas |
 | --- | --- | --- |
-| Arranque con un comando (Docker Compose) | Implementado | Los ficheros de Docker no se han podido ejecutar en el entorno de desarrollo (sin acceso a Docker Hub). La prueba automática de GitHub los construye y arranca en cada cambio |
-| Base de datos y migraciones | Probado | Probado con PostgreSQL 16 en desarrollo. Con PostgreSQL 17 + TimescaleDB (la versión de Docker) se probará en la primera ejecución de GitHub. Las migraciones se prueban en cada ejecución |
+| Arranque con un comando (Docker Compose) | Probado en GitHub | La prueba automática construye las imágenes, arranca los tres servicios, comprueba el acceso a través del frontend y ejecuta las pruebas dentro del contenedor. Falta comprobarlo en tu ordenador |
+| Base de datos y migraciones | Probado | PostgreSQL 16 en desarrollo y PostgreSQL 17 con TimescaleDB (la versión de Docker) en GitHub. Las migraciones se prueban en cada ejecución |
 | Acceso con contraseña y doble factor | Probado | Argon2id; código TOTP de un solo uso, también con accesos simultáneos; bloqueo tras 5 fallos en 15 minutos; sesiones de 12 horas |
 | Protección frente a peticiones falsificadas (CSRF) y DNS rebinding | Probado | Cookie SameSite=Strict, cabecera propia obligatoria, lista de nombres de servidor permitidos y política de contenido (CSP) |
 | Pasarela de IA: Anthropic | Probado con respuestas simuladas | Falta la prueba con tu clave real (botón "Probar conexión") |
